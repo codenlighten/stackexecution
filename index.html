@@ -864,7 +864,7 @@
 				console.log(result);
 				const output = document.getElementById("output");
 				const outputItem = document.createElement("p");
-				outputItem.innerHTML = result;
+				outputItem.innerHTML = result.length > 0 ? result : "Stack is empty";
 				output.appendChild(outputItem);
 			});
 			document
