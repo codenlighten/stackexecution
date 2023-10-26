@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- bsv cdn unpkg -->
+		<script src="https://unpkg.com/bsv@1.5"></script>
+		<!-- bootstrap -->
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		/>
+		<title>Stack Loops Demonstration</title>
+		<style>
+			* {
+				font-family: "Courier New", Courier, monospace;
+				box-sizing: border-box;
+			}
+			.container {
+				margin: 0 auto;
+				max-width: 800px;
+			}
+			.container h1 {
+				text-align: center;
+				font: 2em "Courier New", Courier, monospace;
+			}
+			.container h2 {
+				text-align: center;
+				font: 1.5em "Courier New", Courier, monospace;
+			}
+			.container p {
+				text-align: center;
+				font: 1em "Courier New", Courier, monospace;
+			}
+			.stackLoops {
+				margin-bottom: 50px;
+			}
+			#currentStack {
+				margin-bottom: 50px;
+				border: 1px solid black;
+				padding: 10px;
+			}
+			#output {
+				margin-bottom: 50px;
+				border: 1px solid black;
+				padding: 10px;
+			}
+			#currentChoice {
+				margin-bottom: 50px;
+			}
+			#currentChoiceValue {
+				font-weight: bold;
+			}
+			#clearStack {
+				margin-bottom: 50px;
+			}
+
+			#executeStack {
+				margin-bottom: 50px;
+			}
+
+			#opcodes {
+				margin-bottom: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="header container">
+			<h1>Common BSV Stack Operations</h1>
+			<p>
+				BSV Locking & Unlocking Stacks are a data structure that follow the LIFO
+				(Last In First Out) principle. This means that the last item added to
+				the stack will be the first item removed from the stack. Stacks are used
+				in many different algorithms and are a very important data structure to
+				understand.
+			</p>
+		</div>
+		<div class="container stackLoops">
+			<select name="" id="opcodes">
+				<option value="OP_0">OP_0</option>
+				<option value="OP_1">OP_1</option>
+				<option value="OP_2">OP_2</option>
+				<option value="OP_3">OP_3</option>
+				<option value="OP_4">OP_4</option>
+				<option value="OP_5">OP_5</option>
+				<option value="OP_6">OP_6</option>
+				<option value="OP_7">OP_7</option>
+				<option value="OP_8">OP_8</option>
+				<option value="OP_9">OP_9</option>
+				<option value="OP_10">OP_10</option>
+				<option value="OP_11">OP_11</option>
+				<option value="OP_12">OP_12</option>
+				<option value="OP_13">OP_13</option>
+				<option value="OP_14">OP_14</option>
+				<option value="OP_15">OP_15</option>
+				<option value="OP_16">OP_16</option>
+				<option value="OP_1NEGATE">OP_1NEGATE</option>
+				<option value="OP_1ADD">OP_1ADD</option>
+				<option value="OP_1SUB">OP_1SUB</option>
+				<option value="OP_2DROP">OP_2DROP</option>
+				<option value="OP_2DUP">OP_2DUP</option>
+				<option value="OP_2OVER">OP_2OVER</option>
+				<option value="OP_2ROT">OP_2ROT</option>
+				<option value="OP_2SWAP">OP_2SWAP</option>
+				<option value="OP_3DUP">OP_3DUP</option>
+				<option value="OP_ABS">OP_ABS</option>
+				<option value="OP_ADD">OP_ADD</option>
+				<option value="OP_AND">OP_AND</option>
+				<option value="OP_BOOLAND">OP_BOOLAND</option>
+				<option value="OP_BOOLOR">OP_BOOLOR</option>
+				<option value="OP_CAT">OP_CAT</option>
+				<option value="OP_CHECKLOCKTIMEVERIFY">OP_CHECKLOCKTIMEVERIFY</option>
+				<option value="OP_CHECKMULTISIG">OP_CHECKMULTISIG</option>
+				<option value="OP_CHECKMULTISIGVERIFY">OP_CHECKMULTISIGVERIFY</option>
+				<option value="OP_CHECKSIG">OP_CHECKSIG</option>
+				<option value="OP_CHECKSIGVERIFY">OP_CHECKSIGVERIFY</option>
+				<option value="OP_CODESEPARATOR">OP_CODESEPARATOR</option>
+				<option value="OP_DEPTH">OP_DEPTH</option>
+				<option value="OP_DIV">OP_DIV</option>
+				<option value="OP_DROP">OP_DROP</option>
+				<option value="OP_DUP">OP_DUP</option>
+				<option value="OP_ELSE">OP_ELSE</option>
+				<option value="OP_ENDIF">OP_ENDIF</option>
+				<option value="OP_EQUAL">OP_EQUAL</option>
+				<option value="OP_EQUALVERIFY">OP_EQUALVERIFY</option>
+				<option value="OP_FALSE">OP_FALSE</option>
+				<option value="OP_FROMALTSTACK">OP_FROMALTSTACK</option>
+				<option value="OP_GREATERTHAN">OP_GREATERTHAN</option>
+				<option value="OP_GREATERTHANOREQUAL">OP_GREATERTHANOREQUAL</option>
+				<option value="OP_HASH160">OP_HASH160</option>
+				<option value="OP_HASH256">OP_HASH256</option>
+				<option value="OP_IF">OP_IF</option>
+				<option value="OP_IFDUP">OP_IFDUP</option>
+				<option value="OP_INVALIDOPCODE">OP_INVALIDOPCODE</option>
+				<option value="OP_INVERT">OP_INVERT</option>
+				<option value="OP_LEFT">OP_LEFT</option>
+				<option value="OP_LESSTHAN">OP_LESSTHAN</option>
+				<option value="OP_LESSTHANOREQUAL">OP_LESSTHANOREQUAL</option>
+				<option value="OP_LSHIFT">OP_LSHIFT</option>
+				<option value="OP_MAX">OP_MAX</option>
+				<option value="OP_MIN">OP_MIN</option>
+				<option value="OP_MOD">OP_MOD</option>
+				<option value="OP_MUL">OP_MUL</option>
+				<option value="OP_NEGATE">OP_NEGATE</option>
+				<option value="OP_NIP">OP_NIP</option>
+				<option value="OP_NOP">OP_NOP</option>
+				<option value="OP_NOP1">OP_NOP1</option>
+				<option value="OP_NOP10">OP_NOP10</option>
+				<option value="OP_NOP2">OP_NOP2</option>
+				<option value="OP_NOP3">OP_NOP3</option>
+				<option value="OP_NOP4">OP_NOP4</option>
+				<option value="OP_NOP5">OP_NOP5</option>
+				<option value="OP_NOP6">OP_NOP6</option>
+				<option value="OP_NOP7">OP_NOP7</option>
+				<option value="OP_NOP8">OP_NOP8</option>
+				<option value="OP_NOP9">OP_NOP9</option>
+				<option value="OP_NOT">OP_NOT</option>
+				<option value="OP_NOTIF">OP_NOTIF</option>
+				<option value="OP_NUMEQUAL">OP_NUMEQUAL</option>
+				<option value="OP_NUMEQUALVERIFY">OP_NUMEQUALVERIFY</option>
+				<option value="OP_NUMNOTEQUAL">OP_NUMNOTEQUAL</option>
+				<option value="OP_OR">OP_OR</option>
+				<option value="OP_OVER">OP_OVER</option>
+				<option value="OP_PICK">OP_PICK</option>
+				<option value="OP_PUSHDATA1">OP_PUSHDATA1</option>
+				<option value="OP_PUSHDATA2">OP_PUSHDATA2</option>
+				<option value="OP_PUSHDATA4">OP_PUSHDATA4</option>
+				<option value="OP_RESERVED">OP_RESERVED</option>
+				<option value="OP_RESERVED1">OP_RESERVED1</option>
+				<option value="OP_RESERVED2">OP_RESERVED2</option>
+				<option value="OP_RETURN">OP_RETURN</option>
+				<option value="OP_RIGHT">OP_RIGHT</option>
+				<option value="OP_RIPEMD160">OP_RIPEMD160</option>
+				<option value="OP_ROLL">OP_ROLL</option>
+				<option value="OP_ROT">OP_ROT</option>
+				<option value="OP_RSHIFT">OP_RSHIFT</option>
+				<option value="OP_SHA1">OP_SHA1</option>
+				<option value="OP_SHA256">OP_SHA256</option>
+				<option value="OP_SIZE">OP_SIZE</option>
+				<option value="OP_SUB">OP_SUB</option>
+				<option value="OP_SUBSTR">OP_SUBSTR</option>
+				<option value="OP_SWAP">OP_SWAP</option>
+				<option value="OP_TOALTSTACK">OP_TOALTSTACK</option>
+				<option value="OP_TRUE">OP_TRUE</option>
+				<option value="OP_TUCK">OP_TUCK</option>
+				<option value="OP_VERIFY">OP_VERIFY</option>
+				<option value="OP_WITHIN">OP_WITHIN</option>
+				<option value="OP_XOR">OP_XOR</option>
+			</select>
+			<label for="">Current Choice:</label>
+			<h3 id="currentChoiceValue"></h3>
+			<label for="">Add Data?</label> <input type="text" id="datainput" />
+			<button id="addOpcode">Add Opcode or Data</button>
+		</div>
+		<div class="container" id="currentChoice"></div>
+		<div class="container" id="currentStack">
+			<h2>Current Stack</h2>
+		</div>
+		<div class="container" id="executeStack">
+			<h2>Execute Stack</h2>
+			<button id="executeStack">Execute Stack</button>
+		</div>
+		<div class="container" id="output">
+			<h2>Output</h2>
+		</div>
+		<div class="container" id="clearStack">
+			<h2>Clear Stack</h2>
+			<button id="clearStack">Clear Stack</button>
+		</div>
+		<script>
+			const Buffer = bsv.deps.Buffer;
+			const Ripemd160 = bsv.crypto.Hash.ripemd160;
+			const sha256 = bsv.crypto.Hash.sha256;
+			const hash256 = bsv.crypto.Hash.sha256sha256;
+			const hash160 = bsv.crypto.Hash.sha256ripemd160;
+
+			// Converts data to its hexadecimal string representation.
+			const toHex = (data) => {
+				return Buffer.from(data).toString("hex");
+			};
+			console.log(toHex("Hello World"));
+
+			// Converts a hexadecimal string back to its Buffer representation.
+			const toBuffer = (data) => {
+				return Buffer.from(data, "hex");
+			};
+			console.log(toBuffer("48656c6c6f20576f726c64")); // "Hello World" in hex
+
+			// Converts a Buffer or hex string to its numeric representation.
+			const toNumber = (data) => {
+				const buf =
+					typeof data === "string" && data.startsWith("0x")
+						? Buffer.from(data.slice(2), "hex")
+						: Buffer.from(data);
+				return buf.readUIntLE(0, buf.length);
+			};
+			console.log(toNumber("Hello World"));
+
+			// Converts a Buffer or hex string to its BigInt representation.
+			const toBigNumber = (data) => {
+				return BigInt(toNumber(data));
+			};
+			console.log(toBigNumber("Hello World"));
+
+			// Returns the little-endian hexadecimal representation of data.
+			const toLittleEndian = (data) => {
+				return Buffer.from(data).reverse().toString("hex");
+			};
+			console.log(toLittleEndian("900656"));
+
+			// Converts data to its script number representation.
+			const toScriptNumber = (data) => {
+				if (data.length === 0) {
+					return 0n;
+				}
+				let result = 0n;
+				let isNegative = false;
+				let length = data.length;
+				if (length > 4) {
+					throw new Error("Script number overflow");
+				}
+				if ((data[length - 1] & 0x80) !== 0) {
+					isNegative = true;
+				}
+				result = BigInt(data[length - 1] & 0x7f);
+				for (let i = length - 2; i >= 0; i--) {
+					result <<= 8n;
+					result |= BigInt(data[i]);
+				}
+				if (isNegative) {
+					result = -result;
+				}
+				return result;
+			};
+
+			const isValidNumber = (num) => {
+				return typeof num === "number" && !isNaN(num);
+			};
+
+			const add = (a, b) => {
+				if (!isValidNumber(a) || !isValidNumber(b))
+					throw new Error("Invalid number input.");
+				return a + b;
+			};
+
+			const subtract = (a, b) => {
+				if (!isValidNumber(a) || !isValidNumber(b))
+					throw new Error("Invalid number input.");
+				return a - b;
+			};
+
+			const multiply = (a, b) => {
+				if (!isValidNumber(a) || !isValidNumber(b))
+					throw new Error("Invalid number input.");
+				return a * b;
+			};
+
+			const divide = (a, b) => {
+				if (!isValidNumber(a) || !isValidNumber(b))
+					throw new Error("Invalid number input.");
+				if (b === 0) throw new Error("Division by zero is not allowed.");
+				return a / b;
+			};
+
+			const mod = (a, b) => {
+				if (!isValidNumber(a) || !isValidNumber(b))
+					throw new Error("Invalid number input.");
+				if (b === 0) throw new Error("Modulo by zero is not allowed.");
+				return a % b;
+			};
+
+			const negate = (a) => {
+				if (!isValidNumber(a)) throw new Error("Invalid number input.");
+				return -a;
+			};
+
+			const abs = (a) => {
+				if (!isValidNumber(a)) throw new Error("Invalid number input.");
+				return Math.abs(a);
+			};
+
+			const max = (a, b) => {
+				if (!isValidNumber(a) || !isValidNumber(b))
+					throw new Error("Invalid number input.");
+				return Math.max(a, b);
+			};
+
+			const min = (a, b) => {
+				if (!isValidNumber(a) || !isValidNumber(b))
+					throw new Error("Invalid number input.");
+				return Math.min(a, b);
+			};
+
+			const booland = (a, b) => {
+				return Boolean(a && b);
+			};
+
+			const boolor = (a, b) => {
+				return Boolean(a || b);
+			};
+
+			const numequal = (a, b) => {
+				return a === b;
+			};
+
+			const numnotequal = (a, b) => {
+				return a !== b;
+			};
+
+			const lessthan = (a, b) => {
+				if (!isValidNumber(a) || !isValidNumber(b))
+					throw new Error("Invalid number input.");
+				return a < b;
+			};
+
+			const greaterthan = (a, b) => {
+				if (!isValidNumber(a) || !isValidNumber(b))
+					throw new Error("Invalid number input.");
+				return a > b;
+			};
+
+			const lessthanorequal = (a, b) => {
+				if (!isValidNumber(a) || !isValidNumber(b))
+					throw new Error("Invalid number input.");
+				return a <= b;
+			};
+
+			const greaterthanorequal = (a, b) => {
+				if (!isValidNumber(a) || !isValidNumber(b))
+					throw new Error("Invalid number input.");
+				return a >= b;
+			};
+
+			// data checks operations
+
+			const equal = (a, b) => {
+				if (
+					a &&
+					typeof a.equals === "function" &&
+					b &&
+					typeof b.equals === "function"
+				) {
+					return a.equals(b);
+				}
+				return a === b;
+			};
+
+			// Verify equality of data items and throw an error if not equal.
+			const equalverify = (a, b) => {
+				if (!equal(a, b)) {
+					throw new Error("Values are not equal.");
+				}
+				return true; // This line is optional since the function would halt on error anyway.
+			};
+
+			const numnotequalverify = (a, b) => {
+				return a !== b;
+			};
+
+			const within = (a, b, c) => {
+				if (!isValidNumber(a) || !isValidNumber(b) || !isValidNumber(c))
+					throw new Error("Invalid number input.");
+				return a >= b && a < c;
+			};
+
+			console.log(toScriptNumber("55"));
+			let mainStack = [];
+			let altStack = [];
+			let opcodes = [];
+			let currentChoiceItem;
+			let currentStack = [];
+			function executeScript(script) {
+				let stack = [];
+				let altStack = [];
+				let opcodes = [];
+
+				const ensureStackCount = (count) => {
+					if (stack.length < count) {
+						throw new Error("Not enough items on the stack.");
+					}
+				};
+
+				script.forEach((opcode) => {
+					opcodes.push(opcode);
+					if (typeof opcode === "number") {
+						if (opcode >= 0 && opcode <= 16) {
+							stack.push(opcode);
+						} else if (opcode >= 81 && opcode <= 96) {
+							stack.push(opcode - 80);
+						} else {
+							throw new Error(`Invalid numeric opcode: ${opcode}.`);
+						}
+					} else if (typeof opcode === "string") {
+						if (opcode === "OP_1NEGATE") {
+							stack.push(-1);
+						} else if (opcode === "OP_1") {
+							stack.push(1);
+						} else if (opcode === "OP_2") {
+							stack.push(2);
+						} else if (opcode === "OP_3") {
+							stack.push(3);
+						} else if (opcode === "OP_4") {
+							stack.push(4);
+						} else if (opcode === "OP_5") {
+							stack.push(5);
+						} else if (opcode === "OP_6") {
+							stack.push(6);
+						} else if (opcode === "OP_7") {
+							stack.push(7);
+						} else if (opcode === "OP_8") {
+							stack.push(8);
+						} else if (opcode === "OP_9") {
+							stack.push(9);
+						} else if (opcode === "OP_10") {
+							stack.push(10);
+						} else if (opcode === "OP_11") {
+							stack.push(11);
+						} else if (opcode === "OP_12") {
+							stack.push(12);
+						} else if (opcode === "OP_13") {
+							stack.push(13);
+						} else if (opcode === "OP_14") {
+							stack.push(14);
+						} else if (opcode === "OP_15") {
+							stack.push(15);
+						} else if (opcode === "OP_16") {
+							stack.push(16);
+						} else if (opcode === "OP_0") {
+							stack.push(0);
+						} else if (opcode === "OP_1ADD") {
+							let a = stack.pop();
+							stack.push(add(a, 1));
+						} else if (opcode === "OP_1SUB") {
+							let a = stack.pop();
+							stack.push(subtract(a, 1));
+						} else if (opcode === "OP_2DROP") {
+							let a = stack.pop();
+							let b = stack.pop();
+						} else if (opcode === "OP_2DUP") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(b);
+							stack.push(a);
+							stack.push(b);
+							stack.push(a);
+						} else if (opcode === "OP_2OVER") {
+							let a = stack.pop();
+							let b = stack.pop();
+							let c = stack.pop();
+							let d = stack.pop();
+							stack.push(d);
+							stack.push(c);
+							stack.push(b);
+							stack.push(a);
+							stack.push(d);
+							stack.push(c);
+						} else if (opcode === "OP_2ROT") {
+							let a = stack.pop();
+							let b = stack.pop();
+							let c = stack.pop();
+							let d = stack.pop();
+							let e = stack.pop();
+							let f = stack.pop();
+							stack.push(f);
+							stack.push(e);
+							stack.push(d);
+							stack.push(c);
+							stack.push(b);
+							stack.push(a);
+						} else if (opcode === "OP_2SWAP") {
+							let a = stack.pop();
+							let b = stack.pop();
+							let c = stack.pop();
+							let d = stack.pop();
+							stack.push(b);
+							stack.push(a);
+							stack.push(d);
+							stack.push(c);
+						} else if (opcode === "OP_3DUP") {
+							let a = stack.pop();
+							let b = stack.pop();
+							let c = stack.pop();
+							stack.push(c);
+							stack.push(b);
+							stack.push(a);
+							stack.push(c);
+							stack.push(b);
+							stack.push(a);
+						} else if (opcode === "OP_ABS") {
+							let a = stack.pop();
+							stack.push(abs(a));
+						} else if (opcode === "OP_ADD") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(add(a, b));
+						} else if (opcode === "OP_AND") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(a & b);
+						} else if (opcode === "OP_BOOLAND") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(booland(a, b));
+						} else if (opcode === "OP_BOOLOR") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(boolor(a, b));
+						} else if (opcode === "OP_CAT") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(b + a);
+						} else if (opcode === "OP_CODESEPARATOR") {
+							let a = stack.pop();
+							// nothing
+						} else if (opcode === "OP_DEPTH") {
+							let a = stack.pop();
+							stack.push(stack.length);
+						} else if (opcode === "OP_DIV") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(divide(b, a));
+						} else if (opcode === "OP_DROP") {
+							let a = stack.pop();
+						} else if (opcode === "OP_DUP") {
+							let a = stack.pop();
+							stack.push(a);
+							stack.push(a);
+						} else if (opcode === "OP_ELSE") {
+							let condition = stack.pop();
+							if (condition) {
+								// skip to endif
+								while (script[i] !== "OP_ENDIF") {
+									i++;
+								}
+							}
+						} else if (opcode === "OP_ENDIF") {
+							let a = stack.pop();
+							// nothing
+						} else if (opcode === "OP_EQUAL") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(equal(a, b));
+						} else if (opcode === "OP_EQUALVERIFY") {
+							let a = stack.pop();
+							let b = stack.pop();
+							equalverify(a, b);
+						} else if (opcode === "OP_FALSE") {
+							stack.push(0);
+						} else if (opcode === "OP_FROMALTSTACK") {
+							let a = altStack.pop();
+							stack.push(a);
+						} else if (opcode === "OP_GREATERTHAN") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(greaterthan(b, a));
+						} else if (opcode === "OP_GREATERTHANOREQUAL") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(greaterthanorequal(b, a));
+						} else if (opcode === "OP_HASH160") {
+							let a = stack.pop();
+							stack.push(hash160(a));
+						} else if (opcode === "OP_HASH256") {
+							let a = stack.pop();
+							stack.push(hash256(a));
+						} else if (opcode === "OP_IF") {
+							let condition = stack.pop();
+							if (!condition) {
+								// skip to else or endif
+								while (script[i] !== "OP_ELSE" && script[i] !== "OP_ENDIF") {
+									i++;
+								}
+								if (script[i] === "OP_ELSE") {
+									i++;
+								}
+							}
+						} else if (opcode === "OP_IFDUP") {
+							let a = stack.pop();
+							if (a) {
+								stack.push(a);
+								stack.push(a);
+							}
+						} else if (opcode === "OP_INVERT") {
+							let a = stack.pop();
+							stack.push(~a);
+						} else if (opcode === "OP_LEFT") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(b.slice(0, a));
+						} else if (opcode === "OP_LESSTHAN") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(lessthan(b, a));
+						} else if (opcode === "OP_LESSTHANOREQUAL") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(lessthanorequal(b, a));
+						} else if (opcode === "OP_LSHIFT") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(b << a);
+						} else if (opcode === "OP_MAX") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(max(b, a));
+						} else if (opcode === "OP_MIN") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(min(b, a));
+						} else if (opcode === "OP_MOD") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(mod(b, a));
+						} else if (opcode === "OP_MUL") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(multiply(b, a));
+						} else if (opcode === "OP_NEGATE") {
+							let a = stack.pop();
+							stack.push(negate(a));
+						} else if (opcode === "OP_NIP") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(a);
+						} else if (
+							opcode === "OP_NOP" ||
+							opcode === "OP_NOP1" ||
+							opcode === "OP_NOP2" ||
+							opcode === "OP_NOP3" ||
+							opcode === "OP_NOP4" ||
+							opcode === "OP_NOP5" ||
+							opcode === "OP_NOP6" ||
+							opcode === "OP_NOP7" ||
+							opcode === "OP_NOP8" ||
+							opcode === "OP_NOP9" ||
+							opcode === "OP_NOP10"
+						) {
+							// nothing
+						} else if (opcode === "OP_NOT") {
+							let a = stack.pop();
+							stack.push(!a);
+						} else if (opcode === "OP_NOTIF") {
+							let condition = stack.pop();
+							if (condition) {
+								// skip to else or endif
+								while (script[i] !== "OP_ELSE" && script[i] !== "OP_ENDIF") {
+									i++;
+								}
+								if (script[i] === "OP_ELSE") {
+									i++;
+								}
+							}
+						} else if (opcode === "OP_NUMEQUAL") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(numequal(b, a));
+						} else if (opcode === "OP_NUMEQUALVERIFY") {
+							let a = stack.pop();
+							let b = stack.pop();
+							equalverify(a, b);
+						} else if (opcode === "OP_NUMNOTEQUAL") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(numnotequal(b, a));
+						} else if (opcode === "OP_OR") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(a | b);
+						} else if (opcode === "OP_OVER") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(b);
+							stack.push(a);
+							stack.push(b);
+						} else if (opcode === "OP_PICK") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(stack[stack.length - a - 1]);
+						} else if (opcode === "OP_PUSHDATA1") {
+							let a = stack.pop();
+							stack.push(a);
+						} else if (opcode === "OP_PUSHDATA2") {
+							let a = stack.pop();
+							stack.push(a);
+						} else if (opcode === "OP_PUSHDATA4") {
+							let a = stack.pop();
+							stack.push(a);
+						} else if (opcode === "OP_RESERVED") {
+							throw new Error("Reserved opcode");
+						} else if (opcode === "OP_RESERVED1") {
+							throw new Error("Reserved opcode");
+						} else if (opcode === "OP_RESERVED2") {
+							throw new Error("Reserved opcode");
+						} else if (opcode === "OP_RETURN") {
+							throw new Error("Return opcode");
+						} else if (opcode === "OP_RIGHT") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(b.slice(-a));
+						} else if (opcode === "OP_RIPEMD160") {
+							let a = stack.pop();
+							stack.push(Ripemd160(a));
+						} else if (opcode === "OP_ROLL") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(stack[stack.length - a - 1]);
+							stack.splice(stack.length - a - 1, 1);
+						} else if (opcode === "OP_ROT") {
+							let a = stack.pop();
+							let b = stack.pop();
+							let c = stack.pop();
+							stack.push(b);
+							stack.push(a);
+							stack.push(c);
+						} else if (opcode === "OP_RSHIFT") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(b >> a);
+						} else if (opcode === "OP_SHA1") {
+							let a = stack.pop();
+							stack.push(sha1(a));
+						} else if (opcode === "OP_SHA256") {
+							let a = stack.pop();
+							stack.push(sha256(a));
+						} else if (opcode === "OP_SIZE") {
+							let a = stack.pop();
+							stack.push(a.length);
+						} else if (opcode === "OP_SUB") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(subtract(b, a));
+						} else if (opcode === "OP_SUBSTR") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(b.slice(a));
+						} else if (opcode === "OP_SWAP") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(a);
+							stack.push(b);
+						} else if (opcode === "OP_TOALTSTACK") {
+							let a = stack.pop();
+							altStack.push(a);
+						} else if (opcode === "OP_TRUE") {
+							stack.push(1);
+						} else if (opcode === "OP_TUCK") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(a);
+							stack.push(b);
+							stack.push(a);
+						} else if (opcode === "OP_VERIFY") {
+							let a = stack.pop();
+							if (!a) {
+								throw new Error("Verify failed");
+							}
+						} else if (opcode === "OP_WITHIN") {
+							let a = stack.pop();
+							let b = stack.pop();
+							let c = stack.pop();
+							stack.push(within(b, c, a));
+						} else if (opcode === "OP_XOR") {
+							let a = stack.pop();
+							let b = stack.pop();
+							stack.push(a ^ b);
+						} else if (opcode.startsWith("0x")) {
+							stack.push(opcode);
+						} else {
+							throw new Error(`Invalid opcode: ${opcode}.`);
+						}
+					}
+				});
+				return stack;
+			}
+
+			//  test script
+			// let script = ["OP_2", "OP_3", "OP_ADD", "OP_5", "OP_EQUAL"];
+			// let script2 = ["OP_5", "OP_3", "OP_ADD", "OP_5", "OP_EQUAL"];
+			// let result = executeScript(script);
+			// console.log(result);
+			// let result2 = executeScript(script2);
+			// console.log(result2);
+
+			// addeventlistener to option select
+
+			const selection = document.getElementById("opcodes");
+			const currentChoice = document.getElementById("currentChoiceValue");
+			selection.addEventListener("change", (event) => {
+				currentChoice.textContent = event.target.value;
+				currentChoiceItem = event.target.value;
+			});
+
+			// add event listener to add opcode button
+
+			const addOpcode = document.getElementById("addOpcode");
+			addOpcode.addEventListener("click", (event) => {
+				let data = document.getElementById("datainput").value;
+				if (data) {
+					opcodes.push(data);
+					currentStack.push(data);
+					const stackItem = document.createElement("p");
+					stackItem.innerHTML = data;
+					document.getElementById("currentStack").appendChild(stackItem);
+				} else {
+					opcodes.push(currentChoiceItem);
+					currentStack.push(currentChoiceItem);
+					const stackItem = document.createElement("p");
+					stackItem.innerHTML = currentChoiceItem;
+					document.getElementById("currentStack").appendChild(stackItem);
+				}
+				console.log(opcodes, currentStack);
+			});
+			const executeStackBtn = document.getElementById("executeStack");
+			executeStackBtn.addEventListener("click", (event) => {
+				let result = executeScript(opcodes);
+				console.log(result);
+				const output = document.getElementById("output");
+				const outputItem = document.createElement("p");
+				outputItem.innerHTML = result;
+				output.appendChild(outputItem);
+			});
+			document
+				.getElementById("clearStack")
+				.addEventListener("click", (event) => {
+					opcodes = [];
+					document.getElementById("output").innerHTML = "";
+				});
+		</script>
+	</body>
+</html>
