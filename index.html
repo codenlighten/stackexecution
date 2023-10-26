@@ -600,10 +600,10 @@
 							stack.push(greaterthanorequal(b, a));
 						} else if (opcode === "OP_HASH160") {
 							let a = stack.pop();
-							stack.push(hash160(a));
+							stack.push(hash160(Buffer.from(a)).toString("hex"));
 						} else if (opcode === "OP_HASH256") {
 							let a = stack.pop();
-							stack.push(hash256(a));
+							stack.push(hash256(Buffer.from(a)).toString("hex"));
 						} else if (opcode === "OP_IF") {
 							let condition = stack.pop();
 							if (!condition) {
@@ -759,10 +759,10 @@
 							stack.push(b >> a);
 						} else if (opcode === "OP_SHA1") {
 							let a = stack.pop();
-							stack.push(sha1(a));
+							stack.push(sha1(Buffer.from(a)).toString("hex"));
 						} else if (opcode === "OP_SHA256") {
 							let a = stack.pop();
-							stack.push(sha256(a));
+							stack.push(sha256(Buffer.from(a)).toString("hex"));
 						} else if (opcode === "OP_SIZE") {
 							let a = stack.pop();
 							stack.push(a.length);
