@@ -835,8 +835,10 @@
 
 			const addOpcode = document.getElementById("addOpcode");
 			addOpcode.addEventListener("click", (event) => {
-				let data = document.getElementById("datainput").value;
-				if (data) {
+				let dataitem = document.getElementById("datainput").value;
+				if (dataitem) {
+          //convert data to hex
+          let data = toHex(dataitem);
 					opcodes.push(data);
 					currentStack.push(data);
 					const stackItem = document.createElement("p");
