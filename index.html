@@ -845,12 +845,16 @@
 					const stackItem = document.createElement("p");
 					stackItem.innerHTML = data;
 					document.getElementById("currentStack").appendChild(stackItem);
+					// remove data from input
+					document.getElementById("datainput").value = "";
 				} else {
 					opcodes.push(currentChoiceItem);
 					currentStack.push(currentChoiceItem);
 					const stackItem = document.createElement("p");
 					stackItem.innerHTML = currentChoiceItem;
 					document.getElementById("currentStack").appendChild(stackItem);
+					// remove data from input
+					document.getElementById("datainput").value = "";
 				}
 				console.log(opcodes, currentStack);
 			});
