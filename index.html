@@ -223,11 +223,10 @@
 			</select>
 			<h2>Current OpCode Choice:</h2>
 			<h3 id="currentChoiceValue"></h3>
+			<input type="text" id="datainput" /><label for="">Add Data?</label>
 			<button id="addOpcode">Add Opcode or Data</button>
 			<button id="removeOpcode">Remove Opcode or Data</button>
-			<input type="text" id="datainput" /><label for="">Add Data?</label>
 		</div>
-
 		<div class="container" id="currentChoice"></div>
 		<div class="container" id="currentStack">
 			<h2>Current Stack</h2>
@@ -248,7 +247,6 @@
 			const sha256 = bsv.crypto.Hash.sha256;
 			const hash256 = bsv.crypto.Hash.sha256sha256;
 			const hash160 = bsv.crypto.Hash.sha256ripemd160;
-
 			// Converts data to its hexadecimal string representation.
 			const toHex = (data) => {
 				return Buffer.from(data).toString("hex");
