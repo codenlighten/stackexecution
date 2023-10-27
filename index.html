@@ -41,19 +41,17 @@
 				word-wrap: break-word;
 			}
 			.container {
-				margin: 0 auto;
+				margin: auto;
 				max-width: 800px;
+				text-align: center;
 			}
 			.container h1 {
-				text-align: center;
 				font: 2em "Courier New", Courier, monospace;
 			}
 			.container h2 {
-				text-align: center;
 				font: 1.5em "Courier New", Courier, monospace;
 			}
 			.container p {
-				text-align: center;
 				font: 1em "Courier New", Courier, monospace;
 			}
 			.stackLoops {
@@ -89,8 +87,13 @@
 			button {
 				margin: 50px;
 			}
-			label {
-				margin-left: 10px;
+			.header {
+				padding: 20px;
+				border: 1px solid black;
+				margin: 50px auto;
+			}
+			input {
+				margin: 10px;
 			}
 		</style>
 	</head>
@@ -218,13 +221,11 @@
 				<option value="OP_WITHIN">OP_WITHIN</option>
 				<option value="OP_XOR">OP_XOR</option>
 			</select>
-			<label for="">Current OpCode Choice:</label>
+			<h2>Current OpCode Choice:</h2>
 			<h3 id="currentChoiceValue"></h3>
-			<input type="text" id="datainput" /><label for="">Add Data?</label>
-		</div>
-		<div class="container" id="buttons">
 			<button id="addOpcode">Add Opcode or Data</button>
 			<button id="removeOpcode">Remove Opcode or Data</button>
+			<input type="text" id="datainput" /><label for="">Add Data?</label>
 		</div>
 
 		<div class="container" id="currentChoice"></div>
