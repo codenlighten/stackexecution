@@ -90,7 +90,29 @@
 			.header {
 				margin-bottom: 50px;
 			}
-
+			.header h1 {
+				margin-bottom: 10px;
+			}
+			#output {
+				border: 1px solid black;
+				padding: 10px;
+			}
+			#currentStack {
+				border: 1px solid black;
+				padding: 10px;
+			}
+			#currentChoice {
+				/* border: 1px solid black; */
+				padding: 10px;
+			}
+			#currentChoiceValue {
+				/* border: 1px solid black; */
+				padding: 10px;
+			}
+			/* #clearStack {
+				border: 1px solid black;
+				padding: 10px;
+			} */
 			@media (max-width: 768px) {
 				.stackLoops {
 					margin-bottom: 50px;
@@ -845,16 +867,6 @@
 				return stack;
 			}
 
-			//  test script
-			// let script = ["OP_2", "OP_3", "OP_ADD", "OP_5", "OP_EQUAL"];
-			// let script2 = ["OP_5", "OP_3", "OP_ADD", "OP_5", "OP_EQUAL"];
-			// let result = executeScript(script);
-			// console.log(result);
-			// let result2 = executeScript(script2);
-			// console.log(result2);
-
-			// addeventlistener to option select
-
 			const selection = document.getElementById("opcodes");
 			const currentChoice = document.getElementById("currentChoiceValue");
 			selection.addEventListener("change", (event) => {
@@ -884,7 +896,6 @@
 					const stackItem = document.createElement("p");
 					stackItem.innerHTML = currentChoiceItem;
 					document.getElementById("currentStack").appendChild(stackItem);
-					// remove data from input
 					document.getElementById("datainput").value = "";
 				}
 				console.log(opcodes, currentStack);
@@ -894,6 +905,7 @@
 				let result = executeScript(opcodes);
 				console.log(result);
 				const output = document.getElementById("output");
+				output.innerHTML = "";
 				const outputItem = document.createElement("p");
 				outputItem.innerHTML = result.length > 0 ? result : "Stack is empty";
 				output.appendChild(outputItem);
