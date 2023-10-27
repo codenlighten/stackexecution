@@ -45,15 +45,6 @@
 				max-width: 800px;
 				text-align: center;
 			}
-			.container h1 {
-				font: 2em "Courier New", Courier, monospace;
-			}
-			.container h2 {
-				font: 1.5em "Courier New", Courier, monospace;
-			}
-			.container p {
-				font: 1em "Courier New", Courier, monospace;
-			}
 			.stackLoops {
 				display: flex;
 				flex-direction: column;
@@ -63,43 +54,47 @@
 				padding: 10px;
 				margin-bottom: 50px;
 			}
-			#currentStack {
-				margin-bottom: 50px;
-				border: 1px solid black;
-				padding: 10px;
+			.stackLoops label {
+				margin-right: 10px;
 			}
-			#output {
-				margin-bottom: 50px;
-				border: 1px solid black;
-				padding: 10px;
+			.stackLoops select {
+				margin-bottom: 10px;
 			}
-			#currentChoice {
-				margin-bottom: 50px;
+			.stackLoops input {
+				margin-bottom: 10px;
 			}
-			#currentChoiceValue {
-				font-weight: bold;
+			.stackLoops button {
+				margin-bottom: 10px;
 			}
-			#clearStack {
-				margin-bottom: 50px;
+			.stackLoops h2 {
+				margin-bottom: 10px;
 			}
-
-			#executeStack {
-				margin-bottom: 50px;
+			.stackLoops p {
+				margin-bottom: 10px;
 			}
-
-			#opcodes {
-				margin-bottom: 50px;
+			.stackLoops #currentChoiceValue {
+				margin-bottom: 10px;
 			}
-			button {
-				margin: 50px;
+			.stackLoops #currentChoice {
+				margin-bottom: 10px;
+			}
+			.stackLoops #currentStack {
+				margin-bottom: 10px;
+			}
+			.stackLoops #output {
+				margin-bottom: 10px;
+			}
+			.stackLoops #clearStack {
+				margin-bottom: 10px;
 			}
 			.header {
-				padding: 20px;
-				border: 1px solid black;
-				margin: 50px auto;
+				margin-bottom: 50px;
 			}
-			input {
-				margin: 10px;
+
+			@media (max-width: 768px) {
+				.stackLoops {
+					margin-bottom: 50px;
+				}
 			}
 		</style>
 	</head>
