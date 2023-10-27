@@ -38,7 +38,7 @@
 			* {
 				font-family: "Courier New", Courier, monospace;
 				box-sizing: border-box;
-        word-wrap: break-word;
+				word-wrap: break-word;
 			}
 			.container {
 				margin: 0 auto;
@@ -85,6 +85,12 @@
 
 			#opcodes {
 				margin-bottom: 50px;
+			}
+			button {
+				margin: 50px;
+			}
+			label {
+				margin-left: 10px;
 			}
 		</style>
 	</head>
@@ -212,11 +218,15 @@
 				<option value="OP_WITHIN">OP_WITHIN</option>
 				<option value="OP_XOR">OP_XOR</option>
 			</select>
-			<label for="">Current Choice:</label>
+			<label for="">Current OpCode Choice:</label>
 			<h3 id="currentChoiceValue"></h3>
-			<label for="">Add Data?</label> <input type="text" id="datainput" />
-			<button id="addOpcode">Add Opcode or Data</button>
+			<input type="text" id="datainput" /><label for="">Add Data?</label>
 		</div>
+		<div class="container" id="buttons">
+			<button id="addOpcode">Add Opcode or Data</button>
+			<button id="removeOpcode">Remove Opcode or Data</button>
+		</div>
+
 		<div class="container" id="currentChoice"></div>
 		<div class="container" id="currentStack">
 			<h2>Current Stack</h2>
@@ -229,7 +239,6 @@
 			<h2>Output</h2>
 		</div>
 		<div class="container" id="clearStack">
-			<h2>Clear Stack</h2>
 			<button id="clearStack">Clear Stack</button>
 		</div>
 		<script>
@@ -896,6 +905,15 @@
 				.addEventListener("click", (event) => {
 					opcodes = [];
 					document.getElementById("output").innerHTML = "";
+					document.getElementById("currentStack").innerHTML = "";
+					document.getElementById("currentChoiceValue").innerHTML = "";
+				});
+			document
+				.getElementById("removeOpcode")
+				.addEventListener("click", (event) => {
+					opcodes.pop();
+					currentStack.pop();
+					document.getElementById("currentStack").lastChild.remove();
 				});
 		</script>
 	</body>
