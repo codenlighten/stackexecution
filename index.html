@@ -55,9 +55,13 @@
 				font: 1em "Courier New", Courier, monospace;
 			}
 			.stackLoops {
-				margin-bottom: 50px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
 				border: 1px solid black;
 				padding: 10px;
+				margin-bottom: 50px;
 			}
 			#currentStack {
 				margin-bottom: 50px;
@@ -224,19 +228,17 @@
 				<option value="OP_XOR">OP_XOR</option>
 			</select>
 			<label>Current OpCode Choice:</label>
-			<p id="currentChoiceValue"></p>
+			<h2 id="currentChoiceValue"></h2>
 			<input type="text" id="datainput" /><label for="">Add Data?</label> <br />
 			<button id="addOpcode">Add Opcode or Data</button>
 			<button id="removeOpcode">Remove Opcode or Data</button>
+			<button id="executeStack">Execute Stack</button>
 		</div>
 		<div class="container" id="currentChoice"></div>
 		<div class="container" id="currentStack">
 			<h2>Current Stack</h2>
 		</div>
-		<div class="container" id="executeStack">
-			<h2>Execute Stack</h2>
-			<button id="executeStack">Execute Stack</button>
-		</div>
+
 		<div class="container" id="output">
 			<h2>Output</h2>
 		</div>
